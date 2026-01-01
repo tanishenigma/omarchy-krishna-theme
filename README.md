@@ -9,4 +9,4 @@ A serene, devotional desktop theme for **Omarchy** inspired by the colors and ae
 You can install this theme using the Omarchy theme installer:
 
 ```bash
-omarchy-theme-install https://github.com/<your-username>/omarchy-krsna-theme.git
+omarchy-theme-install https://github.com/tanishenigma/omarchy-krishna-theme.git
