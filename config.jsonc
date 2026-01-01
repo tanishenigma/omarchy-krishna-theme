@@ -1,0 +1,155 @@
+{
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top",
+  "spacing": 0,
+  "height": 36,
+  "margin": 6,
+  "modules-left": [
+    "custom/krsna-menu",
+    "hyprland/workspaces",
+    "custom/spotify"
+  ],
+  "modules-center": ["clock", "custom/weather"],
+  "modules-right": ["group/hardware", "group/power-stats"],
+
+  // --- Theme Specific Modules --- //
+
+  "custom/krsna-menu": {
+    // Using a music note/flute representation for Krsna theme
+    "format": "󰎆",
+    "on-click": "omarchy-menu",
+    "on-click-right": "xdg-terminal-exec",
+    "tooltip-format": "Krsna Menu"
+  },
+
+  "hyprland/workspaces": {
+    "on-click": "activate",
+    "format": "{icon}",
+    "format-icons": {
+      "active": "",
+      "focused": "",
+      "default": ""
+    },
+    "persistent-workspaces": {
+      "*": [1, 2, 3, 4, 5]
+    }
+  },
+
+  // --- Standard Modules --- //
+
+  "clock": {
+    "format": "{:L%A %H:%M}",
+    "format-alt": "{:L%d %B W%V %Y}",
+    "tooltip": true,
+    "tooltip-format": "{calendar}",
+    "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select"
+  },
+  "custom/weather": {
+    "format": "• {}",
+    "tooltip": true,
+    "interval": 1800,
+    "exec": "$HOME/.config/waybar/scripts/wttr.py",
+    "return-type": "json"
+  },
+  "custom/spotify": {
+    "exec": "sh -lc \"playerctl -p spotify metadata --format '  {{ artist }} - {{ title }}' 2>/dev/null || echo ''\"",
+    "format": "{}",
+    "return-type": "text",
+    "interval": 1,
+    "on-click": "playerctl play-pause --player=spotify"
+  },
+  "cpu": {
+    "interval": 5,
+    "format": "󰍛",
+    "on-click": "omarchy-launch-or-focus-tui btop"
+  },
+  "network": {
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "format": "{icon}",
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰀂",
+    "format-disconnected": "󰤮",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "interval": 3,
+    "on-click": "omarchy-launch-wifi"
+  },
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-icons": {
+      "charging": [" 󱐌", " 󱐌", " 󱐌", " 󱐌", " 󱐋 "],
+      "default": ["  ", "  ", "  ", "  ", "   "]
+    },
+    "interval": 5,
+    "states": {
+      "warning": 20,
+      "critical": 10
+    }
+  },
+  "backlight": {
+    "format": "{icon} ",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "on-scroll-up": "brightnessctl set +5% ",
+    "on-scroll-down": "brightnessctl set 5%- ",
+    "on-click": "~/.config/waybar/scripts/toggle-brightness.sh"
+  },
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-connected": "*",
+    "on-click": "omarchy-launch-bluetooth"
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "on-click": "omarchy-launch-or-focus-tui wiremix",
+    "on-click-right": "pamixer -t",
+    "format-muted": "",
+    "format-icons": {
+      "default": ["", "", ""]
+    }
+  },
+  "custom/volume-slider": {
+    "exec": "pamixer --get-volume",
+    "interval": 1,
+    "format": "{}",
+    "on-scroll-down": "pamixer -i 5",
+    "on-scroll-up": "pamixer -d 5"
+  },
+
+  // --- Groups --- //
+
+  "group/hardware": {
+    "orientation": "horizontal",
+    "modules": ["group/tray-expander", "bluetooth", "network", "cpu"]
+  },
+  "group/power-stats": {
+    "orientation": "horizontal",
+    "modules": ["backlight", "group/audio", "battery"]
+  },
+  "group/audio": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "audio-slider"
+    },
+    "modules": ["pulseaudio", "custom/volume-slider"]
+  },
+  "group/tray-expander": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 600,
+      "click-to-reveal": true,
+      "transition-to-left": true,
+      "children-class": "tray-group-item"
+    },
+    "modules": ["custom/expand-icon", "tray"]
+  },
+  "custom/expand-icon": {
+    "format": "",
+    "tooltip": true
+  },
+  "tray": {
+    "icon-size": 12,
+    "spacing": 17
+  }
+}
